@@ -45,7 +45,7 @@ function craeteAnswer() {
                 navigator.mediaDevices.getDisplayMedia({
                     video: true
                 }).then(stream => {
-                    const video = document.getElementById('video');
+                    const video = document.getElementById('user-1');
                     video.srcObject = stream;
                     video.onloadedmetadata = () => {
                         video.play();

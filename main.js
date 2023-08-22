@@ -215,6 +215,15 @@ sendChannel.onmessage = e => console.log("messsage received!!!" + e.data)
 sendChannel.onopen = e => console.log("open!!!!");
 sendChannel.onclose = e => console.log("closed!!!!!!");
 
+sendChannel.ontrack = event => {
+    if (event.track.kind === 'video') {
+        const localScreenVideo = document.getElementById('local-screen');
+        localScreenVideo.srcObject = event.streams[0];
+        localScreenVideo.onloadedmetadata = () => {
+            localScreenVideo.play();
+        };
+    }
+};
 
 localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
 

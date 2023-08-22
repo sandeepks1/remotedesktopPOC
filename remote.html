@@ -16,21 +16,20 @@
         <video class="video-player" id="user-1" autoplay playsinline></video>
     </div>
 
-    <button id="create-offer">Create Offer</button>
+    <!-- <button id="create-offer">Create Offer</button> -->
     <label>SDP Offer</label>
     <textarea id="offer-sdp"></textarea>
 
-    <!-- <button id="create-answer">Create Answer</button> -->
+    <button onclick="craeteAnswer()" id="create-answer">Create Answer</button>
     <label>SDP Answer</label>
     <textarea id="answer-sdp"></textarea>
 
-    <button id="add-answer" onclick="addAnswer()">Add Answer</button>
+    <!-- <button id="add-answer" onclick="addAnswer()">Add Answer</button> -->
 
     <br/>
-    <button style="height: 50px;width: 1000px;color:white;background-color: blue;" onclick="connecttoPC()">Connect to desktop</button>
 
 </body>
 <!-- <script type="text/javascript" src="agora-rtm-sdk-1.4.4.js"></script> -->
-<script type="text/javascript" src='main.js'></script>
+<script type="text/javascript" src='remote.js'></script>
 
 </html>

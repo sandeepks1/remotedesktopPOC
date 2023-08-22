@@ -55,6 +55,12 @@ function craeteAnswer() {
                     console.error('Error opening video camera.', error);
                 });
 
+                peerConnection.ontrack = async(event) => {
+                    event.streams[0].getTracks().forEach((track) => {
+                        remoteConnection.addTrack(track)
+                    })
+                }
+
             }
         }
         receiveChannel.onopen = e => console.log("open!!!!");

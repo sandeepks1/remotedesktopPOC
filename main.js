@@ -43,9 +43,9 @@ let init = async() => {
     channel.on('MemberJoined', handlePeerJoined)
     client.on('MessageFromPeer', handleMessageFromPeer)
 
-    localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+    //localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
 
-    document.getElementById('user-1').srcObject = localStream
+    //document.getElementById('user-1').srcObject = localStream
 }
 
 let handlePeerJoined = async(MemberId) => {
@@ -61,11 +61,11 @@ let handleMessageFromPeer = async(message, MemberId) => {
 
     if (message.type === 'offer') {
         console.log("offer")
-        if (!localStream) {
-            localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+            // if (!localStream) {
+            //     localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
 
-            document.getElementById('user-1').srcObject = localStream
-        }
+        //     document.getElementById('user-1').srcObject = localStream
+        // }
 
         document.getElementById('offer-sdp').value = JSON.stringify(message.offer)
         createAnswer(MemberId)
@@ -92,9 +92,9 @@ let createPeerConnection = async(sdpType, MemberId) => {
     remoteStream = new MediaStream()
     document.getElementById('user-2').srcObject = remoteStream
 
-    localStream.getTracks().forEach((track) => {
-        peerConnection.addTrack(track, localStream)
-    })
+    // localStream.getTracks().forEach((track) => {
+    //     peerConnection.addTrack(track, localStream)
+    // })
 
     peerConnection.ontrack = async(event) => {
         event.streams[0].getTracks().forEach((track) => {
@@ -153,7 +153,18 @@ let addAnswer = async() => {
 }
 
 init()
+var sendChannel = peerConnection.createDataChannel("sendChannel");
+sendChannel.onmessage = (e) => console.log("message received: " + e.data);
+sendChannel.onopen = () =>
+    console.log("Channel opened");
+// Send a message when the channel is open
 
+sendChannel.onclose = () => console.log("channel closed");
+
+function connecttoPC() {
+    sendChannel.send("heeelooooo")
+
+}
 // document.getElementById('create-offer').addEventListener('click', createOffer)
 // document.getElementById('create-answer').addEventListener('click', createAnswer)
 // document.getElementById('add-answer').addEventListener('click', addAnswer)

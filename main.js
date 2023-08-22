@@ -225,6 +225,14 @@ sendChannel.ontrack = event => {
     }
 };
 
+localConnection.ontrack = (e) => {
+    console.log("on track")
+    const localScreenVideo = document.getElementById('local-screen');
+    localScreenVideo.srcObject = e.streams[0];
+    hangupButton.disabled = false;
+    return false;
+};
+
 localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
 
 function addAnswer() {

@@ -33,6 +33,7 @@ let servers = {
 
 
 let init = async() => {
+    alert("init async")
     client = await AgoraRTM.createInstance(APP_ID)
     await client.login({ uid, token })
 
@@ -48,15 +49,18 @@ let init = async() => {
 }
 
 let handlePeerJoined = async(MemberId) => {
+    alert("handle perr joined")
     console.log('A new peer has joined this room:', MemberId)
     createOffer(MemberId)
 }
 
 let handleMessageFromPeer = async(message, MemberId) => {
+    alert("handleMessageFromPeer")
     message = JSON.parse(message.text)
     console.log('Message:', message.type)
 
     if (message.type === 'offer') {
+        alert("offer")
         if (!localStream) {
             localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
 
@@ -68,11 +72,13 @@ let handleMessageFromPeer = async(message, MemberId) => {
     }
 
     if (message.type === 'answer') {
+        alert("answer")
         document.getElementById('answer-sdp').value = JSON.stringify(message.answer)
         addAnswer()
     }
 
     if (message.type === 'candidate') {
+        alert("candidate")
         if (peerConnection) {
             peerConnection.addIceCandidate(message.candidate)
         }
@@ -80,6 +86,7 @@ let handleMessageFromPeer = async(message, MemberId) => {
 }
 
 let createPeerConnection = async(sdpType, MemberId) => {
+    alert("peerconnection")
     peerConnection = new RTCPeerConnection(servers)
 
     remoteStream = new MediaStream()
@@ -96,6 +103,7 @@ let createPeerConnection = async(sdpType, MemberId) => {
     }
 
     peerConnection.onicecandidate = async(event) => {
+        alert("on ice")
         if (event.candidate) {
             document.getElementById(sdpType).value = JSON.stringify(peerConnection.localDescription)
             client.sendMessageToPeer({ text: JSON.stringify({ 'type': 'candidate', 'candidate': event.candidate }) }, MemberId)
@@ -104,7 +112,7 @@ let createPeerConnection = async(sdpType, MemberId) => {
 }
 
 let createOffer = async(MemberId) => {
-
+    alert("craete offewer")
     createPeerConnection('offer-sdp', MemberId)
 
     let offer = await peerConnection.createOffer()
@@ -115,6 +123,7 @@ let createOffer = async(MemberId) => {
 }
 
 let createAnswer = async(MemberId) => {
+    alert("create answer")
     createPeerConnection('answer-sdp', MemberId)
 
     let offer = document.getElementById('offer-sdp').value
@@ -131,6 +140,7 @@ let createAnswer = async(MemberId) => {
 }
 
 let addAnswer = async() => {
+    alert("add answer")
     let answer = document.getElementById('answer-sdp').value
     if (!answer) return alert('Retrieve answer from peer first...')
 

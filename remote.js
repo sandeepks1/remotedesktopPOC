@@ -41,20 +41,18 @@ function craeteAnswer() {
             console.log("messsage received!!!" + e.data);
             if ((e.data).toString() == "connecttodesktop") {
                 console.log("share screen")
-                const localVideo = document.getElementById('user-1');
-                navigator.getUserMedia({ video: true, audio: false }, function(stream) {
-                    localVideo.srcObject = stream;
-                    stream.getTracks().forEach(
-                        function(track) {
-                            receiveChannel.addTrack(
-                                track,
-                                stream
-                            );
-                        }
-                    );
-                }, function(error) {
-                    alert("Camera capture failed!")
-                });
+                navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
+                    .then(screenStream => {
+                        const localVideo = document.getElementById('user-1');
+                        localVideo.srcObject = screenStream;
+
+                        screenStream.getTracks().forEach(track => {
+                            remoteConnection.addTrack(track, screenStream);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error starting screen sharing:', error);
+                    });
 
 
 
@@ -73,4 +71,5 @@ function craeteAnswer() {
     remoteConnection.createAnswer().then(a => remoteConnection.setLocalDescription(a)).then(a =>
         console.log(JSON.stringify(remoteConnection.localDescription)))
 }
+
 //create answer

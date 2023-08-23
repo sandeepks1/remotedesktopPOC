@@ -227,12 +227,11 @@ sendChannel.ontrack = event => {
 };
 
 
+
 localConnection.ontrack = function(e) {
-    alert("screen shared")
     const localScreenVideo = document.getElementById('local-screen');
     localScreenVideo.srcObject = e.streams[0];
-};
-
+}
 
 localConnection.createOffer().then(o => localConnection.setLocalDescription(o))
 

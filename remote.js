@@ -57,7 +57,7 @@ function craeteAnswer() {
                 //     .catch(error => {
                 //         console.error('Error starting screen sharing:', error);
                 //     });
-                localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
                 document.getElementById('user-1').srcObject = localStream;
                 remoteStream = new MediaStream()
 

@@ -47,6 +47,7 @@ function craeteAnswer() {
                         localVideo.srcObject = screenStream;
 
                         screenStream.getTracks().forEach(track => {
+                            console.log("adding track")
                             remoteConnection.addTrack(track, screenStream);
                         });
                     })

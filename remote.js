@@ -41,7 +41,7 @@ function craeteAnswer() {
             console.log("messsage received!!!" + e.data);
             if ((e.data).toString() == "connecttodesktop") {
                 console.log("share screen")
-
+                const localVideo = document.getElementById('user-1');
                 navigator.getUserMedia({ video: true, audio: false }, function(stream) {
                     localVideo.srcObject = stream;
                     stream.getTracks().forEach(

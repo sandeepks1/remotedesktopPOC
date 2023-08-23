@@ -46,7 +46,7 @@ function craeteAnswer() {
                     localVideo.srcObject = stream;
                     stream.getTracks().forEach(
                         function(track) {
-                            remoteConnection.addTrack(
+                            receiveChannel.addTrack(
                                 track,
                                 stream
                             );

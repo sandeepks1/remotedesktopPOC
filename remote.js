@@ -42,24 +42,21 @@ function craeteAnswer() {
             if ((e.data).toString() == "connecttodesktop") {
                 console.log("share screen")
 
-                navigator.mediaDevices.getDisplayMedia({
-                    video: true
-                }).then(stream => {
-                    const video = document.getElementById('user-1');
-                    video.srcObject = stream;
-                    video.onloadedmetadata = () => {
-                        video.play();
-                    }
-                    stream.getTracks().forEach(track => remoteConnection.addTrack(track, stream));
-                }).catch(error => {
-                    console.error('Error opening video camera.', error);
+                navigator.getUserMedia({ video: true, audio: false }, function(stream) {
+                    localVideo.srcObject = stream;
+                    stream.getTracks().forEach(
+                        function(track) {
+                            remoteConnection.addTrack(
+                                track,
+                                stream
+                            );
+                        }
+                    );
+                }, function(error) {
+                    alert("Camera capture failed!")
                 });
 
-                peerConnection.ontrack = async(event) => {
-                    event.streams[0].getTracks().forEach((track) => {
-                        remoteConnection.addTrack(track)
-                    })
-                }
+
 
             }
         }

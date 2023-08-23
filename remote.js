@@ -37,24 +37,34 @@ function craeteAnswer() {
     remoteConnection.ondatachannel = e => {
 
         const receiveChannel = e.channel;
-        receiveChannel.onmessage = e => {
+        receiveChannel.onmessage = async e => {
             console.log("messsage received!!!" + e.data);
             if ((e.data).toString() == "connecttodesktop") {
                 console.log("share screen")
-                navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
-                    .then(screenStream => {
-                        const localVideo = document.getElementById('user-1');
-                        localVideo.srcObject = screenStream;
+                    // navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
+                    //     .then(screenStream => {
+                    //         const localVideo = document.getElementById('user-1');
+                    //         localVideo.srcObject = screenStream;
 
-                        screenStream.getTracks().forEach(track => {
-                            console.log("adding track")
-                            remoteConnection.addTrack(track, screenStream);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error starting screen sharing:', error);
-                    });
 
+
+
+                //         screenStream.getTracks().forEach(track => {
+                //             console.log("adding track")
+                //             remoteConnection.addTrack(track, screenStream);
+                //         });
+                //     })
+                //     .catch(error => {
+                //         console.error('Error starting screen sharing:', error);
+                //     });
+                localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+                document.getElementById('user-1').srcObject = localStream;
+                remoteStream = new MediaStream()
+
+                localStream.getTracks().forEach((track) => {
+                    console.log("adding track")
+                    remoteConnection.addTrack(track, localStream)
+                })
 
 
             }
@@ -63,7 +73,7 @@ function craeteAnswer() {
         receiveChannel.onclose = e => console.log("closed!!!!!!");
         remoteConnection.channel = receiveChannel;
 
-    }
+    };
 
 
     remoteConnection.setRemoteDescription(JSON.parse(offer)).then(a => console.log("done"))

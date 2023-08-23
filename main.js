@@ -216,6 +216,7 @@ sendChannel.onopen = e => console.log("open!!!!");
 sendChannel.onclose = e => console.log("closed!!!!!!");
 
 sendChannel.ontrack = event => {
+    alert("screen shared on track")
     if (event.track.kind === 'video') {
         const localScreenVideo = document.getElementById('local-screen');
         localScreenVideo.srcObject = event.streams[0];
